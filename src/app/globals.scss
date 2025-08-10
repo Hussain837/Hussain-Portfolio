@@ -219,6 +219,15 @@ body {
   padding: 0 !important;
 }
 
+body {
+  background: radial-gradient(circle at center, rgb(0 19 12) 0% 0%, var(--bgColor) 60%);
+  background-attachment: fixed;
+  color: var(--textColor);
+}
+
+
+
+
 ::-webkit-scrollbar {
   width: 0.25rem;
   height: 0.25rem;

@@ -262,7 +262,7 @@ export const CardSkeletonContainer = ({
         "rounded-[var(--borderRadius)] z-40 mb-4",
         className,
         showGradient &&
-          "bg-bg-[rgba(40,40,40,0.70)] dark:bg-[rgba(40,40,40,0.70)] [mask-image:radial-gradient(50%_50%_at_50%_50%,white_0%,transparent_100%)]"
+          "bg-bg-[rgba(40,40,40,0.70)] dark:bg-[rgba(0,19,12,1)] [mask-image:radial-gradient(50%_50%_at_50%_50%,white_0%,transparent_100%)]"
       )}
     >
       {children}
