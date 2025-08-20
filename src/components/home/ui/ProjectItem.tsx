@@ -51,7 +51,7 @@ const ProjectItem = ({ project }: { project: IProjectItem }) => {
           }`}
         >
           <p className="text-xs/6 font-semibold">
-            Job Work
+            Echo IT Solutions Inc.
           </p>
         </div>
 
