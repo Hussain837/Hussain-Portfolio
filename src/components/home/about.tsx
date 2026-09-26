@@ -2,20 +2,21 @@ import Section from "@/components/common/Section";
 import SectionHeading from "@/components/common/SectionHeading";
 import SectionDivider from "@/components/common/SectionDivider";
 import StatCard from "@/components/common/StatCard";
+import { Reveal, Stagger, StaggerItem } from "@/components/motion/Reveal";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { aboutStats, aboutParagraphs, expertise } from "@/data/content";
 
 export default function AboutSection({ id }: { id: string }) {
   return (
     <Section id={id}>
-      <SectionHeading highlight="About" rest=" Me" />
+      <SectionHeading highlight="About" rest="Me" />
 
-        {/* Main Content Grid */}
-        <div className="grid lg:grid-cols-5 gap-8 lg:gap-12">
+      {/* Main Content Grid */}
+      <div className="grid gap-8 lg:grid-cols-5 lg:gap-12">
           {/* Text Content - 3 columns */}
-          <div className="lg:col-span-3 space-y-4 sm:space-y-5 md:space-y-6">
+          <Stagger className="space-y-4 sm:space-y-5 md:space-y-6 lg:col-span-3" stagger={0.09}>
             {aboutParagraphs.map((paragraph) => (
-              <div
+              <StaggerItem
                 key={paragraph.id}
                 className={`rounded-2xl border border-white/10 bg-white/[0.03] p-6 backdrop-blur-sm transition-colors duration-300 sm:p-8 ${paragraph.borderHover}`}
               >
@@ -26,28 +27,29 @@ export default function AboutSection({ id }: { id: string }) {
                   </span>
                   {paragraph.after}
                 </p>
-              </div>
+              </StaggerItem>
             ))}
-          </div>
+          </Stagger>
 
           {/* Side Content - 2 columns */}
           <div className="lg:col-span-2 space-y-6">
             {/* Stats Grid */}
-            <div className="grid grid-cols-2 gap-3 sm:gap-4">
+            <Stagger className="grid grid-cols-2 gap-3 sm:gap-4" stagger={0.06}>
               {aboutStats.map((stat) => (
-                <StatCard
-                  key={stat.id}
-                  label={stat.label}
-                  value={stat.value}
-                  icon={stat.icon}
-                />
+                <StaggerItem key={stat.id}>
+                  <StatCard
+                    label={stat.label}
+                    value={stat.value}
+                    icon={stat.icon}
+                  />
+                </StaggerItem>
               ))}
-            </div>
+            </Stagger>
 
             {/* Expertise Cards */}
-            <div className="space-y-3">
+            <Stagger className="space-y-3" stagger={0.07}>
               {expertise.map((item) => (
-                <div
+                <StaggerItem
                   key={item.title}
                   className="card-surface group p-4 sm:p-5"
                 >
@@ -67,9 +69,9 @@ export default function AboutSection({ id }: { id: string }) {
                       </p>
                     </div>
                   </div>
-                </div>
+                </StaggerItem>
               ))}
-            </div>
+            </Stagger>
           </div>
         </div>
 

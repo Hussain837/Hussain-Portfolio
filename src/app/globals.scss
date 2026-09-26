@@ -861,16 +861,6 @@ small {
   padding: 0.45rem 0.9rem;
 }
 
-@keyframes animate {
-  0% {
-    transform: rotate(0deg);
-  }
-
-  100% {
-    transform: rotate(360deg);
-  }
-}
-
 @keyframes drop-in {
   from {
     opacity: 0;
@@ -883,56 +873,8 @@ small {
   }
 }
 
-@keyframes drop-out {
-  from {
-    opacity: 0;
-    transform: translateX(100px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translate(0px);
-  }
-}
-
-@keyframes slide-in {
-  from {
-    opacity: 0;
-    transform: translateY(-100px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translate(0px);
-  }
-}
-
-@keyframes slide-out {
-  from {
-    opacity: 0;
-    transform: translateY(100px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translate(0px);
-  }
-}
-
 .drop_in {
   animation: drop-in 1s ease 200ms backwards;
-}
-
-.drop_out {
-  animation: drop-out 1s ease 200ms backwards;
-}
-
-.slide_in {
-  animation: slide-in 1s ease 200ms backwards;
-}
-
-.slide_out {
-  animation: slide-out 1s ease 200ms backwards;
 }
 
 .constrained-width {
@@ -1022,10 +964,12 @@ small {
 }
 
 /*
- * Respect users who have asked the OS to reduce motion. The decorative
- * float/pulse/ping loops and the scroll animation are disabled, but the
- * entrance animations are collapsed to a final state rather than removed so
- * content can never be left invisible.
+ * Respect users who have asked the OS to reduce motion.
+ *
+ * Framer Motion entrances are handled in JS via `useReducedMotion()` and
+ * `MotionConfig`, so content always renders in its final visible state rather
+ * than being hidden by a transform. This block covers the CSS-driven pieces
+ * (decorative loops, card hover lift) so nothing keeps moving either way.
  */
 @media (prefers-reduced-motion: reduce) {
   html {
@@ -1036,6 +980,7 @@ small {
   .animate-bounce,
   .animate-ping,
   .animate-pulse,
+  .animate-scroll,
   .group:hover .animate-float {
     animation: none !important;
   }
@@ -1044,6 +989,14 @@ small {
     animation: none !important;
     opacity: 1 !important;
     transform: none !important;
+  }
+
+  /* Cards keep their surface and border but lose the lift. */
+  .card-surface,
+  .card-surface:hover,
+  .card-surface:focus-within {
+    transform: none !important;
+    transition: background-color 0.2s ease, border-color 0.2s ease;
   }
 
   *,

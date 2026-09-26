@@ -42,7 +42,7 @@ export const site = {
 export const seo = {
   title: `${site.name} | ${site.role}`,
   description:
-    "Python Full-Stack Developer with 3+ years of experience building scalable web applications, AI-powered products, analytics platforms, and real-time systems using React, Next.js, Node.js, Python, FastAPI, and LLM technologies.",
+    "Python Full-Stack Developer with 4 years of experience building scalable web applications, AI-powered products, analytics platforms, and real-time systems using React, Next.js, Node.js, Python, FastAPI, and LLM technologies.",
   shortDescription: `${site.name} is a proficient Software Engineer and Full Stack Developer from India, skilled in front-end and back-end development using modern tech stacks.`,
   keywords: [
     site.name,

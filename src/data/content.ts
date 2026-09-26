@@ -23,7 +23,7 @@ import {
 
 /** Headline figures reused by the hero, about and experience sections. */
 export const stats = {
-  yearsExperience: "3+",
+  yearsExperience: "4",
   projectsDelivered: "20+",
   performanceBoost: "35%",
   teamSize: "10+",

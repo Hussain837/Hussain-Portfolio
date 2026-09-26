@@ -2,6 +2,7 @@ import Section from "@/components/common/Section";
 import SectionHeading from "@/components/common/SectionHeading";
 import SectionDivider from "@/components/common/SectionDivider";
 import StatCard from "@/components/common/StatCard";
+import { Stagger, StaggerItem } from "@/components/motion/Reveal";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCalendarAlt, faLocationDot } from "@fortawesome/free-solid-svg-icons";
 import {
@@ -16,29 +17,31 @@ export default function ExperienceSection({ id }: { id: string }) {
     <Section id={id}>
       <SectionHeading
         highlight="Work"
-        rest=" Experience"
+        rest="Experience"
         description="My professional journey and achievements in the tech industry"
       />
 
       {/* Metrics Grid */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-6 mb-10 sm:mb-12">
+      <Stagger
+        className="mb-10 grid grid-cols-2 gap-4 sm:mb-12 sm:gap-6 sm:grid-cols-4"
+        stagger={0.06}
+      >
         {experienceMetrics.map((metric) => (
-          <StatCard
-            key={metric.id}
-            label={metric.label}
-            value={metric.value}
-            icon={metric.icon}
-          />
+          <StaggerItem key={metric.id}>
+            <StatCard
+              label={metric.label}
+              value={metric.value}
+              icon={metric.icon}
+            />
+          </StaggerItem>
         ))}
-      </div>
+      </Stagger>
 
-      {/* Experience Cards */}
-      <div className="space-y-6">
+      {/* Experience Cards - each role drifts in from the left, so the list reads
+          like a career history unfolding rather than a stack of boxes. */}
+      <Stagger className="space-y-6" stagger={0.12}>
         {experiences.map((exp) => (
-          <div
-            key={exp.id}
-            className="card-surface overflow-hidden"
-          >
+          <StaggerItem key={exp.id} variant="timeline" className="card-surface overflow-hidden">
             {/* Header */}
             <div className="p-5 sm:p-6 md:p-8 border-b border-white/10">
               <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
@@ -103,27 +106,27 @@ export default function ExperienceSection({ id }: { id: string }) {
 
             {/* Achievements */}
             <div className="p-5 sm:p-6 md:p-8">
-              <div className="grid sm:grid-cols-2 gap-3">
+              <Stagger className="grid gap-3 sm:grid-cols-2" stagger={0.05}>
                 {exp.achievements.map((achievement) => (
-                  <div
+                  <StaggerItem
                     key={achievement}
-                    className="flex items-start gap-3 rounded-xl bg-white/[0.03] p-3 transition-colors duration-300 hover:bg-white/[0.06] group/achievement"
+                    className="group/achievement flex items-start gap-3 rounded-xl bg-white/[0.03] p-3 transition-colors duration-300 hover:bg-white/[0.06]"
                   >
                     <FontAwesomeIcon
                       icon={achievementIconFor(achievement)}
                       aria-hidden="true"
-                      className="text-indigo-400 text-sm mt-0.5 flex-shrink-0 group-hover/achievement:scale-110 transition-transform"
+                      className="mt-0.5 flex-shrink-0 text-sm text-indigo-400 transition-transform group-hover/achievement:scale-110"
                     />
-                    <span className="text-slate-300 text-sm leading-relaxed">
+                    <span className="text-sm leading-relaxed text-slate-300">
                       {achievement}
                     </span>
-                  </div>
+                  </StaggerItem>
                 ))}
-              </div>
+              </Stagger>
             </div>
-          </div>
+          </StaggerItem>
         ))}
-      </div>
+      </Stagger>
 
       <SectionDivider className="mt-12" />
     </Section>

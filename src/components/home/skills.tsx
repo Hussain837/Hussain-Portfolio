@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Section from "@/components/common/Section";
 import SectionHeading from "@/components/common/SectionHeading";
 import SectionDivider from "@/components/common/SectionDivider";
+import { Reveal, Stagger, StaggerItem } from "@/components/motion/Reveal";
 import { skillCategories, totalTechnologies } from "@/data/portfolio";
 
 
@@ -11,17 +12,21 @@ export default function SkillsSection({ id }: { id: string }) {
     <Section id={id}>
       <SectionHeading
         highlight="Tech"
-        rest=" Stack"
+        rest="Stack"
         description="A comprehensive overview of my technical expertise across different domains"
       />
 
-        {/* Skills Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-          {skillCategories.map((category, index) => (
-            <div
+        {/* Skills Grid - categories stagger in, then chips cascade within each
+            category so the eye reads top-down rather than all at once. */}
+        <Stagger
+          className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3"
+          stagger={0.07}
+        >
+          {skillCategories.map((category) => (
+            <StaggerItem
               key={category.id}
-              className={`card-surface group p-5 sm:p-6 animate-fadeIn`}
-              style={{ animationDelay: `${index * 100}ms` }}
+              variant="technical"
+              className="card-surface group p-5 sm:p-6"
             >
               {/* Category Header */}
               <div className="p-4 sm:p-5 border-b border-white/10">
@@ -45,9 +50,9 @@ export default function SkillsSection({ id }: { id: string }) {
 
               {/* Skills List */}
               <div className="p-4 sm:p-5">
-                <div className="flex flex-wrap gap-2">
+                <Stagger className="flex flex-wrap gap-2" stagger={0.028}>
                   {category.skills.map((skill) => (
-                    <div
+                    <StaggerItem
                       key={skill.name}
                       className="flex items-center gap-2 rounded-lg border border-white/5 bg-white/[0.04] px-3 py-1.5 transition-colors duration-300 hover:border-white/10 hover:bg-white/[0.07]"
                     >
@@ -60,34 +65,41 @@ export default function SkillsSection({ id }: { id: string }) {
                           className="object-contain"
                         />
                       </div>
-                      <span className="text-white/80 group-hover/skill:text-white text-xs sm:text-sm font-medium transition-colors">
+                      <span className="text-xs font-medium text-white/80 transition-colors group-hover/skill:text-white sm:text-sm">
                         {skill.name}
                       </span>
-                    </div>
+                    </StaggerItem>
                   ))}
-                </div>
+                </Stagger>
               </div>
-            </div>
+            </StaggerItem>
           ))}
-        </div>
+        </Stagger>
 
         {/* Stats Footer */}
-        <div className="mt-12 sm:mt-16 flex flex-wrap justify-center gap-6 sm:gap-8 md:gap-12">
+        <Reveal
+          variant="calm"
+          className="mt-12 flex flex-wrap justify-center gap-6 sm:mt-16 sm:gap-8 md:gap-12"
+        >
           <div className="text-center">
-            <p className="text-2xl sm:text-3xl font-bold text-white">{skillCategories.length}</p>
-            <p className="text-xs sm:text-sm text-slate-400">Skill Categories</p>
+            <p className="text-2xl font-bold text-white sm:text-3xl">
+              {skillCategories.length}
+            </p>
+            <p className="text-xs text-slate-400 sm:text-sm">Skill Categories</p>
           </div>
           <div className="text-center">
-            <p className="text-2xl sm:text-3xl font-bold text-white">{totalTechnologies}</p>
-            <p className="text-xs sm:text-sm text-slate-400">Total Technologies</p>
+            <p className="text-2xl font-bold text-white sm:text-3xl">
+              {totalTechnologies}
+            </p>
+            <p className="text-xs text-slate-400 sm:text-sm">Total Technologies</p>
           </div>
           <div className="text-center">
             <div className="flex items-center gap-2 justify-center">
               <span className="text-2xl sm:text-3xl font-bold text-white">✦</span>
             </div>
-            <p className="text-xs sm:text-sm text-slate-400">Full Stack</p>
+            <p className="text-xs text-slate-400 sm:text-sm">Full Stack</p>
           </div>
-        </div>
+        </Reveal>
 
         <SectionDivider className="mt-12" />
     </Section>

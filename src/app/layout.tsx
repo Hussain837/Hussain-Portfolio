@@ -94,6 +94,9 @@ const FloatingNavbar = dynamic(
   () => import("@/components/navbar/FloatingNavbar")
 );
 const ScrollToTop = dynamic(() => import("@/components/common/ScrollToTop"));
+const ScrollProgress = dynamic(
+  () => import("@/components/common/ScrollProgress")
+);
 
 const isDebug = process.env.NODE_ENV === "development";
 
@@ -105,6 +108,7 @@ const RootLayout = ({ children }: Readonly<{ children: ReactNode }>) => {
     >
       <body className={isDebug ? "debug-screens" : ""}>
         <ClientProviders />
+        <ScrollProgress />
         <FloatingNavbar className="app_nav" navItems={navMenus} />
         <main>{children}</main>
         <ScrollToTop />

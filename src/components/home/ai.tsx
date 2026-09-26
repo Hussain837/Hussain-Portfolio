@@ -1,6 +1,7 @@
 import Section from "@/components/common/Section";
 import SectionHeading from "@/components/common/SectionHeading";
 import SectionDivider from "@/components/common/SectionDivider";
+import { Reveal, Stagger, StaggerItem } from "@/components/motion/Reveal";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faArrowDown,
@@ -15,132 +16,160 @@ export default function AISection({ id }: { id: string }) {
     <Section id={id}>
       <SectionHeading
         highlight="AI"
-        rest=" Engineering"
+        rest="Engineering"
         description="Building intelligent applications around LLMs, not training foundation models."
       />
 
-        {/* AI Workflow - Desktop Version */}
-        <div className="hidden lg:block mb-12">
-          <div className="card-surface p-6 sm:p-8">
-            <div className="flex items-center justify-between gap-2">
-              {workflowSteps.map((step, index) => (
-                <div key={step.label} className="flex flex-col items-center flex-1">
-                  <div className="card-surface group flex aspect-square w-full max-w-[120px] flex-col items-center justify-center p-3 text-center">
-                    <FontAwesomeIcon 
-                      icon={step.icon} 
-                      className="text-indigo-400 text-2xl sm:text-3xl mb-2 group-hover:text-indigo-300 transition-colors" 
-                    />
-                    <span className="text-white text-xs sm:text-sm font-medium text-center leading-tight">
-                      {step.label}
-                    </span>
-                  </div>
-                  {index < workflowSteps.length - 1 && (
-                    <div className="flex items-center mt-2">
-                      <FontAwesomeIcon 
-                        icon={faArrowDown} 
-                        className="text-indigo-500/50 text-lg animate-bounce" 
-                      />
-                    </div>
-                  )}
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-
-        {/* AI Workflow - Mobile Version */}
-        <div className="lg:hidden mb-10">
-          <div className="card-surface p-4">
-            <div className="flex flex-col items-center gap-1">
-              {workflowSteps.map((step, index) => (
-                <div key={step.label} className="w-full">
-                  <div className="card-surface group flex w-full items-center gap-3 p-3">
-                    <FontAwesomeIcon 
-                      icon={step.icon} 
-                      className="text-indigo-400 text-lg group-hover:text-indigo-300 transition-colors" 
-                    />
-                    <span className="text-white text-sm font-medium">
-                      {step.label}
-                    </span>
-                  </div>
-                  {index < workflowSteps.length - 1 && (
-                    <div className="flex justify-center my-1">
-                      <FontAwesomeIcon 
-                        icon={faArrowDown} 
-                        className="text-indigo-500/30 text-sm" 
-                      />
-                    </div>
-                  )}
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-
-        {/* AI Capabilities Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-          {aiCapabilities.map((item, index) => (
-            <div
-              key={item.title}
-              className={`card-surface group animate-fadeIn p-5 sm:p-6`}
-              style={{ animationDelay: `${index * 100}ms` }}
-            >
-              <div className="flex items-start gap-4">
-                <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-white/10 flex items-center justify-center flex-shrink-0 group-hover:bg-white/20 transition-colors">
-                  <FontAwesomeIcon 
-                    icon={item.icon} 
-                    className={`${item.iconColor} text-lg sm:text-xl`} 
+      {/* AI Workflow - Desktop. The blur-resolving reveal is the most cinematic
+          entrance on the page, used once so it still feels special. */}
+      <Reveal variant="cinematic" className="mb-12 hidden lg:block">
+        <div className="card-surface p-6 sm:p-8">
+          <Stagger className="flex items-center justify-between gap-2" stagger={0.09}>
+            {workflowSteps.map((step, index) => (
+              <StaggerItem
+                key={step.id}
+                className="flex flex-1 flex-col items-center"
+              >
+                <div className="card-surface group flex aspect-square w-full max-w-[120px] flex-col items-center justify-center p-3 text-center">
+                  <FontAwesomeIcon
+                    icon={step.icon}
+                    aria-hidden="true"
+                    className="mb-2 text-2xl text-indigo-400 transition-colors group-hover:text-indigo-300 sm:text-3xl"
                   />
+                  <span className="text-center text-xs font-medium leading-tight text-white sm:text-sm">
+                    {step.label}
+                  </span>
                 </div>
-                <div className="flex-1">
-                  <h4 className="text-white font-bold text-base sm:text-lg mb-1">
-                    {item.title}
-                  </h4>
-                  <p className="text-slate-300 text-sm leading-relaxed">
-                    {item.description}
-                  </p>
+                {index < workflowSteps.length - 1 && (
+                  <div className="mt-2 flex items-center">
+                    <FontAwesomeIcon
+                      icon={faArrowDown}
+                      aria-hidden="true"
+                      className="animate-bounce text-lg text-indigo-500/50"
+                    />
+                  </div>
+                )}
+              </StaggerItem>
+            ))}
+          </Stagger>
+        </div>
+      </Reveal>
+
+      {/* AI Workflow - Mobile. Same content, vertical, and revealed more
+          gently because the vertical stack is much taller. */}
+      <Reveal variant="soft" className="mb-10 lg:hidden">
+        <div className="card-surface p-4">
+          <Stagger className="flex flex-col items-center gap-1" stagger={0.06}>
+            {workflowSteps.map((step, index) => (
+              <StaggerItem key={step.id} className="w-full">
+                <div className="card-surface group flex w-full items-center gap-3 p-3">
+                  <FontAwesomeIcon
+                    icon={step.icon}
+                    aria-hidden="true"
+                    className="text-lg text-indigo-400 transition-colors group-hover:text-indigo-300"
+                  />
+                  <span className="text-sm font-medium text-white">
+                    {step.label}
+                  </span>
                 </div>
+                {index < workflowSteps.length - 1 && (
+                  <div className="my-1 flex justify-center">
+                    <FontAwesomeIcon
+                      icon={faArrowDown}
+                      aria-hidden="true"
+                      className="text-sm text-indigo-500/30"
+                    />
+                  </div>
+                )}
+              </StaggerItem>
+            ))}
+          </Stagger>
+        </div>
+      </Reveal>
+
+      {/* AI Capabilities Grid */}
+      <Stagger
+        className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3"
+        stagger={0.08}
+      >
+        {aiCapabilities.map((item) => (
+          <StaggerItem
+            key={item.id}
+            variant="cinematic"
+            className="card-surface group p-5 sm:p-6"
+          >
+            <div className="flex items-start gap-4">
+              <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl bg-white/10 transition-colors group-hover:bg-white/20 sm:h-12 sm:w-12">
+                <FontAwesomeIcon
+                  icon={item.icon}
+                  aria-hidden="true"
+                  className={`${item.iconColor} text-lg sm:text-xl`}
+                />
+              </div>
+              <div className="flex-1">
+                <h4 className="mb-1 text-base font-semibold text-white sm:text-lg">
+                  {item.title}
+                </h4>
+                <p className="text-sm leading-relaxed text-slate-300">
+                  {item.description}
+                </p>
               </div>
             </div>
-          ))}
-        </div>
+          </StaggerItem>
+        ))}
+      </Stagger>
 
-        {/* Tech Stack Highlight */}
-        <div className="card-surface mt-10 p-5 sm:mt-12 sm:p-6">
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+      {/* Tech Stack Highlight */}
+      <Reveal variant="soft" className="mt-10 sm:mt-12">
+        <div className="card-surface p-5 sm:p-6">
+          <div className="flex flex-col items-center justify-between gap-4 sm:flex-row">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-indigo-600/20 flex items-center justify-center">
-                <FontAwesomeIcon icon={faBolt} className="text-indigo-400 text-lg" />
+              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-indigo-500/10">
+                <FontAwesomeIcon
+                  icon={faBolt}
+                  aria-hidden="true"
+                  className="text-lg text-indigo-300"
+                />
               </div>
               <div>
-                <h4 className="text-white font-semibold text-sm sm:text-base">AI Tech Stack</h4>
-                <p className="text-slate-400 text-xs sm:text-sm">Tools & frameworks I work with</p>
+                <h4 className="text-sm font-semibold text-white sm:text-base">
+                  AI Tech Stack
+                </h4>
+                <p className="text-xs text-slate-400 sm:text-sm">
+                  Tools &amp; frameworks I work with
+                </p>
               </div>
             </div>
-            <div className="flex flex-wrap gap-2">
+            <Stagger className="flex flex-wrap gap-2" stagger={0.04}>
               {aiStack.map((tech) => (
-                <span
+                <StaggerItem
                   key={tech}
-                  className="rounded-full border border-white/10 bg-white/[0.05] px-3 py-1.5 text-xs font-medium text-slate-300 transition-colors hover:bg-white/[0.09]"
+                  className="rounded-full border border-white/10 bg-white/[0.04] px-3 py-1.5 text-xs font-medium text-slate-300 transition-colors duration-200 hover:border-white/20 hover:bg-white/[0.08]"
                 >
                   {tech}
-                </span>
+                </StaggerItem>
               ))}
-            </div>
+            </Stagger>
           </div>
         </div>
+      </Reveal>
 
-        {/* CTA */}
-        <div className="mt-10 sm:mt-12 text-center">
-          <a
-            href="#projects"
-            className="inline-flex items-center gap-2 px-6 sm:px-8 py-3 sm:py-4 rounded-full bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white font-semibold transition-all duration-300 shadow-lg shadow-indigo-600/30 hover:shadow-indigo-600/50 hover:scale-105 active:scale-95"
-          >
-            <FontAwesomeIcon icon={faRocket} />
-            Explore AI Projects
-            <FontAwesomeIcon icon={faArrowRight} className="group-hover:translate-x-1 transition-transform" />
-          </a>
-        </div>
+      {/* CTA - a 2px lift rather than the previous 5% scale, which felt
+          cartoonish next to the calmer card motion. */}
+      <Reveal variant="calm" className="mt-10 text-center sm:mt-12">
+        <a
+          href="#projects"
+          className="group inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-indigo-600 to-purple-600 px-6 py-3 font-semibold text-white shadow-lg shadow-indigo-600/30 transition-all duration-300 hover:-translate-y-0.5 hover:from-indigo-500 hover:to-purple-500 hover:shadow-indigo-600/50 active:translate-y-0 sm:px-8 sm:py-4"
+        >
+          <FontAwesomeIcon icon={faRocket} aria-hidden="true" />
+          Explore AI Projects
+          <FontAwesomeIcon
+            icon={faArrowRight}
+            aria-hidden="true"
+            className="transition-transform duration-300 group-hover:translate-x-1"
+          />
+        </a>
+      </Reveal>
 
       <SectionDivider className="mt-12" />
     </Section>
