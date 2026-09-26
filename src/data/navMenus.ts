@@ -2,53 +2,22 @@ import { INavItem } from "@/types";
 import {
   faHome,
   faUser,
+  faCode,
   faBriefcase,
   faTimeline,
   faAward,
   faLaptopCode,
   faEnvelope,
-  faCreditCard,
+  faGraduationCap,
 } from "@fortawesome/free-solid-svg-icons";
 
 export const navMenus: INavItem[] = [
-  // {
-  //   name: "Home",
-  //   link: "/#hero",
-  //   icon: faHome,
-  // },
-  {
-    name: "About",
-    link: "/#about",
-    icon: faUser,
-  },
-  {
-    name: "Services",
-    link: "/#services",
-    icon: faBriefcase,
-  },
-  {
-    name: "Experiences",
-    link: "/#experiences",
-    icon: faTimeline,
-  },
-  {
-    name: "Skills",
-    link: "/#skills",
-    icon: faAward,
-  },
-  {
-    name: "Projects",
-    link: "/#projects",
-    icon: faLaptopCode,
-  },
-  {
-    name: "Contact",
-    link: "/#contact",
-    icon: faEnvelope,
-  },
-  // {
-  //   name: "Payment",
-  //   link: "/payment",
-  //   icon: faCreditCard,
-  // },
+  { name: "Home", link: "/#hero", icon: faHome },
+  { name: "About", link: "/#about", icon: faUser },
+  { name: "Skills", link: "/#skills", icon: faAward },
+  { name: "Experience", link: "/#experience", icon: faTimeline },
+  { name: "Projects", link: "/#projects", icon: faLaptopCode },
+  { name: "AI", link: "/#ai", icon: faCode },
+  // { name: "Education", link: "/#education", icon: faGraduationCap },
+  { name: "Contact", link: "/#contact", icon: faEnvelope },
 ];

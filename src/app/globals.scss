@@ -23,6 +23,165 @@
   }
 }
 
+/*
+ * ---------------------------------------------------------------------------
+ * Portfolio design system
+ * ---------------------------------------------------------------------------
+ * The page is built as one continuous canvas rather than a stack of
+ * independently decorated bands:
+ *
+ *   canvas base + page-wide atmosphere  (html/body, full document width)
+ *        -> content container           (shared max width, one left edge)
+ *             -> uniform card surface  (one colour for every card)
+ *                  -> accent glow      (hover / focus only)
+ *
+ * Accent gradients are deliberately reserved for the global atmosphere and
+ * for accent text. Individual cards do NOT get their own coloured gradient,
+ * which is what previously made the page read as visual noise.
+ */
+:root {
+  /* --- Canvas ---------------------------------------------------------- */
+  --canvas-base: #070a14;
+
+  /*
+   * A single page-wide atmosphere: two very large, very low-opacity glows
+   * anchored to the viewport rather than to any one section, so the effect
+   * never appears or disappears as the user scrolls. `fixed` attachment keeps
+   * it stable while the content scrolls over it.
+   */
+  --canvas-atmosphere:
+    radial-gradient(
+      1100px 720px at 18% -8%,
+      rgba(59, 130, 246, 0.16) 0%,
+      rgba(59, 130, 246, 0) 62%
+    ),
+    radial-gradient(
+      980px 680px at 88% 8%,
+      rgba(168, 85, 247, 0.14) 0%,
+      rgba(168, 85, 247, 0) 60%
+    ),
+    radial-gradient(
+      1200px 800px at 50% 108%,
+      rgba(236, 72, 153, 0.1) 0%,
+      rgba(236, 72, 153, 0) 60%
+    );
+
+  /* --- Card surface: one colour for every card ------------------------- */
+  --card-surface: rgba(148, 163, 184, 0.055);
+  --card-surface-hover: rgba(148, 163, 184, 0.085);
+  --card-border: rgba(148, 163, 184, 0.14);
+  --card-border-hover: rgba(165, 180, 252, 0.4);
+  --card-radius: 1rem;
+
+  /* Shared accent glow, applied to borders/shadows only - never as a fill. */
+  --card-glow: 0 18px 40px -22px rgba(99, 102, 241, 0.55);
+
+  /* --- Accent ramp (text, rules, small highlights only) ---------------- */
+  --accent-gradient: linear-gradient(
+    to right,
+    #818cf8 0%,
+    #c084fc 50%,
+    #f472b6 100%
+  );
+  --accent-gradient-text: #a5b4fc;
+  --rule-gradient: linear-gradient(to right, #6366f1 0%, transparent 100%);
+
+  /* --- Layout ---------------------------------------------------------- */
+  --content-max: 1280px;
+  --gutter: 1rem;
+}
+
+@media (min-width: 640px) {
+  :root {
+    --gutter: 1.5rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  :root {
+    --gutter: 2rem;
+  }
+}
+
+/* Softer, smaller atmosphere on small screens so the glows read as
+   atmosphere rather than competing with the content. */
+@media (max-width: 640px) {
+  :root {
+    --canvas-atmosphere:
+      radial-gradient(
+        640px 460px at 20% -6%,
+        rgba(59, 130, 246, 0.14) 0%,
+        rgba(59, 130, 246, 0) 60%
+      ),
+      radial-gradient(
+        560px 420px at 90% 6%,
+        rgba(168, 85, 247, 0.12) 0%,
+        rgba(168, 85, 247, 0) 58%
+      ),
+      radial-gradient(
+        700px 500px at 50% 106%,
+        rgba(236, 72, 153, 0.09) 0%,
+        rgba(236, 72, 153, 0) 58%
+      );
+  }
+}
+
+@layer components {
+  /*
+   * The shared card surface. Every card in the portfolio uses this so the
+   * page reads as one system. `variant="solid"` is available for cards that
+   * need slightly more presence, but the colour stays in the same family.
+   */
+  .card-surface {
+    background-color: var(--card-surface);
+    border: 1px solid var(--card-border);
+    border-radius: var(--card-radius);
+    box-shadow: none;
+    transition:
+      background-color 0.3s ease,
+      border-color 0.3s ease,
+      box-shadow 0.3s ease,
+      transform 0.3s ease;
+  }
+
+  .card-surface:hover,
+  .card-surface:focus-within {
+    background-color: var(--card-surface-hover);
+    border-color: var(--card-border-hover);
+    box-shadow: var(--card-glow);
+  }
+
+  /* Respects users who ask for reduced motion: no lift, no colour shift. */
+  @media (prefers-reduced-motion: reduce) {
+    .card-surface,
+    .card-surface:hover,
+    .card-surface:focus-within {
+      transition: none;
+      transform: none !important;
+    }
+  }
+}
+
+@layer utilities {
+  /*
+   * Gradient text. Falls back to a readable solid colour, so if
+   * `background-clip: text` is unsupported the text is still legible
+   * rather than fully transparent.
+   */
+  .text-gradient {
+    color: var(--accent-gradient-text);
+    background-image: var(--accent-gradient);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 80px;
+}
+
 :root {
   --maxWidth: 1200px;
   --borderRadius: 0.5rem;
@@ -203,11 +362,29 @@ body {
   max-width: 100vw;
   overflow-x: hidden;
 }
-html{
-  background: #000;
-}
+/*
+ * One foundational canvas for the whole document.
+ *
+ * Previously `html` was pure #000, `body` carried a near-black `--bgColor`
+ * and a third rule painted a green-tinted radial gradient on top. At wide
+ * viewports the sections did not fill the document, so those three
+ * unrelated backgrounds showed through as dead space beside the content.
+ * There is now a single base colour plus one page-wide atmospheric
+ * gradient, both spanning the full document at any viewport width.
+ */
+html,
 body {
-  background-color: var(--bgColor);
+  background-color: var(--canvas-base);
+  background-image: var(--canvas-atmosphere);
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+html {
+  background-attachment: fixed;
+}
+
+body {
   font-family: Poppins, system-ui, -apple-system, BlinkMacSystemFont, Segoe UI,
     Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue,
     sans-serif;
@@ -222,8 +399,6 @@ body {
 }
 
 body {
-  background: radial-gradient(circle at center, rgb(0 19 12) 0% 0%, var(--bgColor) 60%);
-  background-attachment: fixed;
   color: var(--textColor);
 }
 
@@ -728,5 +903,97 @@ h6 {
 @media screen and (max-width: 900px) {
   .constrained-width {
     max-width: 100%;
+  }
+}
+
+@layer base {
+  body {
+    background-color: #0b0d12;
+    color: #f8f8f8;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}
+
+/*
+ * Shared section animations.
+ * These were previously duplicated inside per-component <style jsx> blocks,
+ * which forced every section using them to be a Client Component. Declaring
+ * them globally keeps the home sections renderable on the server.
+ */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0) scale(1);
+  }
+  50% {
+    transform: translateY(-20px) scale(1.1);
+  }
+}
+
+@keyframes bounce {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(8px);
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.6s ease-out forwards;
+}
+
+.animate-float {
+  animation: float 4s ease-in-out infinite;
+}
+
+.animate-bounce {
+  animation: bounce 2s ease-in-out infinite;
+}
+
+/*
+ * Respect users who have asked the OS to reduce motion. The decorative
+ * float/pulse/ping loops and the scroll animation are disabled, but the
+ * entrance animations are collapsed to a final state rather than removed so
+ * content can never be left invisible.
+ */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .animate-float,
+  .animate-bounce,
+  .animate-ping,
+  .animate-pulse,
+  .group:hover .animate-float {
+    animation: none !important;
+  }
+
+  .animate-fadeIn {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
   }
 }

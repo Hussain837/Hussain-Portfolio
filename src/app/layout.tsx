@@ -4,6 +4,7 @@ import { ReactNode } from "react";
 import { Metadata } from "next";
 import dynamic from "next/dynamic";
 import { navMenus } from "@/data/navMenus";
+import { site, seo } from "@/data/site";
 
 const poppins = Poppins({
   weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
@@ -26,9 +27,8 @@ const poppins = Poppins({
 
 
 export const metadata: Metadata = {
-  title: "Hussain Zaidi",
-  description:
-    "Hussain Zaidi is a proficient Software Engineer and Full Stack Developer from India, skilled in front-end and back-end development using modern tech stacks.",
+  title: seo.title,
+  description: seo.description,
   robots: {
     index: true,
     follow: true,
@@ -46,29 +46,18 @@ export const metadata: Metadata = {
     { url: "/favicon.ico", rel: "icon", sizes: "48x48", type: "image/x-icon" },
     { url: "/favicon.ico", rel: "icon", sizes: "64x64", type: "image/x-icon" },
   ],
-  keywords: [
-    "Hussain Zaidi",
-    "Hussain",
-    "Hussain-zaidi",
-    "zaidi Hussain",
-    "founder of nixlab",
-    "nixlab founder",
-    "full stack developer",
-    "indian developer",
-    "Hussain github",
-  ],
+  keywords: [...seo.keywords],
   openGraph: {
-    title: "Hussain Zaidi",
-    description:
-      "Hussain Zaidi is a proficient Software Engineer and Full Stack Developer from India, skilled in front-end and back-end development using modern tech stacks.",
-    url: "https://hussain-portfolio-nine.vercel.app/", // replace with your live URL
-    siteName: "Hussain Zaidi",
+    title: site.name,
+    description: seo.shortDescription,
+    url: site.siteUrl,
+    siteName: site.name,
     images: [
       {
-        url: "/profile.jpeg", // Must be an absolute URL in production
+        url: site.profileImage, // Must be an absolute URL in production
         width: 1200,
         height: 630,
-        alt: "Hussain Zaidi - Full Stack Developer",
+        alt: `${site.name} - ${site.role}`,
       },
     ],
     locale: "en_US",
@@ -76,20 +65,14 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Hussain Zaidi",
-    description:
-      "Hussain Zaidi is a proficient Software Engineer and Full Stack Developer from India, skilled in front-end and back-end development using modern tech stacks.",
-    images: ["/profile.jpeg"], // Must be absolute in production
+    title: site.name,
+    description: seo.shortDescription,
+    images: [site.profileImage], // Must be absolute in production
   },
 };
 
-const GoogleAnalytics = dynamic(
-  () => import("@/components/common/GoogleAnalytics"),
-  { ssr: false }
-);
-const WebVitals = dynamic(() => import("@/components/common/WebVitals"), {
-  ssr: false,
-});
+import ClientProviders from "@/components/common/ClientProviders";
+
 const FloatingNavbar = dynamic(
   () => import("@/components/navbar/FloatingNavbar")
 );
@@ -100,10 +83,8 @@ const isDebug = process.env.NODE_ENV === "development";
 const RootLayout = ({ children }: Readonly<{ children: ReactNode }>) => {
   return (
     <html lang="en" className={poppins.className}>
-      {isDebug ? null : <GoogleAnalytics />}
-
       <body className={isDebug ? "debug-screens" : ""}>
-        {isDebug ? <WebVitals /> : null}
+        <ClientProviders />
         <FloatingNavbar className="app_nav" navItems={navMenus} />
         <main>{children}</main>
         <ScrollToTop />

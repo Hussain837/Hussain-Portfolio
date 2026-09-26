@@ -12,6 +12,9 @@ const nextConfig = {
       { protocol: "https", hostname: "**.amazonaws.com" },
     ],
   },
+  // Derived from this file's location so the build is portable across machines
+  // and CI (a hardcoded absolute path breaks any other checkout).
+  outputFileTracingRoot: path.join(__dirname),
 };
 
 module.exports = withSentryConfig(nextConfig, {
