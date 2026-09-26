@@ -1,5 +1,6 @@
 "use client";
 
+import type { HTMLAttributes } from "react";
 import { motion, useScroll, useSpring, useReducedMotion } from "framer-motion";
 import type { HTMLMotionProps } from "framer-motion";
 
@@ -28,8 +29,20 @@ import type { HTMLMotionProps } from "framer-motion";
  * matter how the intrinsic component type is inferred. This is a real type -
  * not `any` and not a cast - so genuine mistakes still fail to compile, and
  * `style.scaleX` keeps its `MotionValue<number> | number` union.
+ *
+ * Why the extra `& HTMLAttributes<HTMLDivElement>`:
+ * `HTMLMotionProps` is derived from `ReactHTML` / `DetailedHTMLFactory`, both of
+ * which `@types/react` 19 removed (they now live only on the 18.x typings). In
+ * Framer Motion 11.11.10 that makes `UnwrapFactoryAttributes` collapse to
+ * `unknown`, so the motion props alone carry no plain ARIA/HTML attributes and
+ * `aria-hidden` is rejected. Intersecting with React's own
+ * `HTMLAttributes<HTMLDivElement>` - which does exist on React 19 - restores
+ * the accessibility attributes and their correct types (`aria-hidden` as
+ * `Booleanish`) without widening anything to `any`. The animation half
+ * (`style`, `MotionValue`s) still comes from `HTMLMotionProps`, and unknown
+ * properties are still rejected.
  */
-type ProgressBarProps = HTMLMotionProps<"div">;
+type ProgressBarProps = HTMLMotionProps<"div"> & HTMLAttributes<HTMLDivElement>;
 
 export default function ScrollProgress() {
   const reduceMotion = useReducedMotion();
@@ -45,7 +58,8 @@ export default function ScrollProgress() {
   // Reduced motion: the element stays in the tree so the server-rendered
   // markup matches (the media query is only known on the client, so returning
   // null here would risk a hydration mismatch), but it is collapsed to zero
-  // scale, which removes it from both sight and the accessibility tree.
+  // scale, which makes it invisible. `aria-hidden` - not the transform - is
+  // what keeps the purely decorative bar out of the accessibility tree.
   const props: ProgressBarProps = {
     "aria-hidden": true,
     style: { scaleX: reduceMotion ? 0 : scaleX },
