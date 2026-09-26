@@ -51,9 +51,9 @@ export default function ExperienceSection({ id }: { id: string }) {
                     />
                   </div>
                   <div>
-                    <h3 className="text-xl sm:text-2xl font-bold text-white">
+                    <h4 className=" text-xl text-white sm:text-2xl">
                       {exp.title}
-                    </h3>
+                    </h4>
                     <div className="flex flex-wrap items-center gap-x-4 gap-y-1 mt-1">
                       <div className="flex items-center gap-2 text-slate-400 text-sm">
                         <FontAwesomeIcon
@@ -69,7 +69,9 @@ export default function ExperienceSection({ id }: { id: string }) {
                           aria-hidden="true"
                           className="text-indigo-400 text-xs"
                         />
-                        <span>{exp.period}</span>
+                        <span className="mono text-[0.8125rem] tracking-tight text-slate-300">
+                          {exp.period}
+                        </span>
                       </div>
                       {exp.location && (
                         <div className="flex items-center gap-2 text-slate-400 text-sm">

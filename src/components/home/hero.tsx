@@ -19,6 +19,7 @@ import { heroHighlights, heroTechBadges } from "@/data/content";
 const floatingIcons = [
   { icon: faCode, delay: "0s", position: "top-10 left-10" },
   { icon: faRocket, delay: "2s", position: "bottom-20 right-10" },
+  { icon: faEnvelope, delay: "2s", position: "bottom-20 left-10" },
   { icon: faBrain, delay: "4s", position: "top-20 right-20" },
 ];
 
@@ -38,7 +39,7 @@ export default function HeroSection({ id }: { id: string }) {
 
   return (
     <ResponsiveBox
-      classNames="relative flex min-h-[92svh] items-center overflow-hidden"
+      classNames="relative flex items-center overflow-hidden"
       id={id}
     >
       {/* Hero reuses the page-wide atmosphere from html/body; the only local
@@ -70,20 +71,23 @@ export default function HeroSection({ id }: { id: string }) {
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-indigo-400 opacity-75" />
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-indigo-500" />
               </span>
-              <span className="text-indigo-300 text-xs sm:text-sm font-medium tracking-wide uppercase">
-                Full-Stack Developer & AI Engineer
+              <span className="technical-label">
+                Full-Stack Developer &amp; AI Engineer
               </span>
             </div>
 
-            {/* Heading with gradient */}
-            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-extrabold leading-tight tracking-tight">
-              <span className="text-white">Hussain</span>
-              <span className="text-gradient"> Zaidi</span>
+            {/* Name in the display serif. The role line beneath it is set in
+                mono as technical metadata, which is what makes the pairing
+                read as designed rather than templated. */}
+            <h1 className="display-type text-[clamp(2.75rem,9vw,6.5rem)] leading-[0.92] tracking-[-0.035em]">
+              <span className="inline-block text-white">Hussain </span>
+              <span className="text-gradient px-4 inline-block italic">Zaidi</span>
             </h1>
 
             {/* Description */}
-            <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-slate-300 font-light max-w-2xl leading-relaxed">
-              Building scalable web applications, AI-powered products, analytics platforms, and real-time systems.
+            <p className="max-w-2xl text-base font-normal leading-relaxed text-slate-300 sm:text-lg md:text-xl">
+              Building scalable web applications, AI-powered products, analytics
+              platforms, and real-time systems.
             </p>
 
             {/* Tech Badges with improved styling */}
@@ -142,7 +146,7 @@ export default function HeroSection({ id }: { id: string }) {
           </Column>
 
           {/* Profile Image - Enhanced */}
-          <div className="flex justify-center lg:justify-end mt-8 lg:mt-0">
+          <div className="flex flex-1 justify-center lg:justify-end mt-8 lg:mt-0">
             <div className="relative">
               {/* Glow ring */}
               <div className="absolute -inset-4 rounded-full bg-indigo-500/20 blur-2xl animate-pulse" />

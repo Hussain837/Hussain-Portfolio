@@ -26,9 +26,9 @@ export default function SectionHeading({
           aria-hidden="true"
           className="h-px w-8 sm:w-12 bg-gradient-to-r from-indigo-500 to-transparent"
         />
-        <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold text-white tracking-tight">
+        <h2 className="display-type text-[clamp(1.9rem,4.2vw,3.25rem)] text-white">
           <span className="text-gradient">{highlight}</span>
-          {rest ? <span className="text-white">{rest}</span> : null}
+          {rest ? <span className="text-white italic">{rest}</span> : null}
         </h2>
         <div
           aria-hidden="true"

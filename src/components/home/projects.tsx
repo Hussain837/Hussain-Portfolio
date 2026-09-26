@@ -35,9 +35,9 @@ export default function ProjectsSection({ id }: { id: string }) {
             {/* Project Header */}
             <div className="flex items-start justify-between mb-3">
               <div className="flex-1">
-                <h3 className="text-lg sm:text-xl font-bold text-white group-hover:text-indigo-300 transition-colors">
+                <h4 className=" text-lg text-white transition-colors group-hover:text-indigo-300 sm:text-xl">
                   {project.title}
-                </h3>
+                </h4>
                 <p
                   className={`text-sm font-medium ${project.iconColor} mt-0.5`}
                 >

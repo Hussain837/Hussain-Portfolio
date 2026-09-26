@@ -1,28 +1,45 @@
 import "./globals.scss";
-import { Poppins } from "next/font/google";
+import { Instrument_Serif, IBM_Plex_Sans, IBM_Plex_Mono } from "next/font/google";
 import { ReactNode } from "react";
 import { Metadata } from "next";
 import dynamic from "next/dynamic";
 import { navMenus } from "@/data/navMenus";
 import { site, seo } from "@/data/site";
 
-const poppins = Poppins({
-  weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
+/**
+ * Typography system.
+ *
+ * Two families carry the identity; everything else is a weight/size decision.
+ * Only the weights actually used are requested - the previous setup loaded
+ * 9 weights x 2 styles of Poppins (59 font faces) for ~4 weights in use.
+ *
+ * The generated variable names (`--font-display`, `--font-body`, `--font-mono`)
+ * are consumed by globals.scss, which is the single place the scale, tracking
+ * and fluid sizes are defined.
+ */
+const display = Instrument_Serif({
+  weight: "400",
   style: ["normal", "italic"],
-  subsets: ["latin", "latin-ext"],
+  subsets: ["latin"],
   display: "swap",
-  preload: true,
-  fallback: [
-    "system-ui",
-    "arial",
-    "BlinkMacSystemFont",
-    "Segoe UI",
-    "Roboto",
-    "Oxygen",
-    "Ubuntu",
-    "Fira Sans",
-    "Droid Sans",
-  ],
+  variable: "--font-display",
+  fallback: ["Georgia", "Times New Roman", "serif"],
+});
+
+const body = IBM_Plex_Sans({
+  weight: ["400", "500", "600"],
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-body",
+  fallback: ["system-ui", "Segoe UI", "Helvetica Neue", "Arial", "sans-serif"],
+});
+
+const mono = IBM_Plex_Mono({
+  weight: ["400", "500"],
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-mono",
+  fallback: ["ui-monospace", "SFMono-Regular", "Menlo", "monospace"],
 });
 
 
@@ -82,7 +99,10 @@ const isDebug = process.env.NODE_ENV === "development";
 
 const RootLayout = ({ children }: Readonly<{ children: ReactNode }>) => {
   return (
-    <html lang="en" className={poppins.className}>
+    <html
+      lang="en"
+      className={`${display.variable} ${body.variable} ${mono.variable}`}
+    >
       <body className={isDebug ? "debug-screens" : ""}>
         <ClientProviders />
         <FloatingNavbar className="app_nav" navItems={navMenus} />
