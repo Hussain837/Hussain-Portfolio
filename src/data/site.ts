@@ -33,7 +33,7 @@ export const site = {
   email: "mo.zaidi837@gmail.com",
   phone: "+91 79062 82945",
   phoneHref: "tel:+917906282945",
-  resumeUrl: "/resume.pdf",
+  resumeUrl: "/Hussain_Zaidi_Resume.docx",
   paymentUrl: "https://rzp.io/l/Hussain-project-payment",
   profileImage: "/profile.jpeg",
   siteUrl: "https://hussain-portfolio-nine.vercel.app/",
