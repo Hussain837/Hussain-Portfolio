@@ -1,8 +1,10 @@
 "use client";
 
-import { motion } from "framer-motion";
 import { cn } from "@/utils/cn";
 import { DURATION, EASE, VIEWPORT } from "@/components/motion/motion";
+import { typed } from "@/components/motion/typedMotion";
+
+const { div: MotionDiv, span: MotionSpan, p: MotionP } = typed;
 
 interface SectionHeadingProps {
   /** Rendered with the accent gradient. */
@@ -29,14 +31,14 @@ export default function SectionHeading({
   className,
 }: SectionHeadingProps) {
   return (
-    <motion.div
+    <MotionDiv
       className={cn(className)}
       initial="hidden"
       whileInView="visible"
       viewport={VIEWPORT}
     >
       <div className="mb-4 flex items-center gap-3">
-        <motion.div
+        <MotionDiv
           aria-hidden="true"
           className="h-px w-8 origin-left bg-gradient-to-r from-indigo-500 to-transparent sm:w-12"
           variants={{ hidden: { scaleX: 0 }, visible: { scaleX: 1 } }}
@@ -45,18 +47,18 @@ export default function SectionHeading({
 
         <h2 className="display-type text-[clamp(1.9rem,4.2vw,3.25rem)] text-white">
           <span className="block overflow-hidden pb-[0.08em]">
-            <motion.span
+            <MotionSpan
               className="block"
               variants={{ hidden: { y: "105%" }, visible: { y: "0%" } }}
               transition={{ duration: 0.8, delay: 0.08, ease: EASE.entrance }}
             >
               <span className="text-gradient">{highlight}</span>
               {rest ? <span className="text-white italic"> {rest}</span> : null}
-            </motion.span>
+            </MotionSpan>
           </span>
         </h2>
 
-        <motion.div
+        <MotionDiv
           aria-hidden="true"
           className="h-px flex-1 origin-right bg-gradient-to-l from-indigo-500 to-transparent"
           variants={{ hidden: { scaleX: 0 }, visible: { scaleX: 1 } }}
@@ -65,7 +67,7 @@ export default function SectionHeading({
       </div>
 
       {description ? (
-        <motion.p
+        <MotionP
           className="mb-8 max-w-2xl text-sm text-slate-400 sm:mb-10 sm:text-base md:mb-12"
           variants={{ hidden: { opacity: 0, y: 10 }, visible: { opacity: 1, y: 0 } }}
           transition={{
@@ -75,8 +77,8 @@ export default function SectionHeading({
           }}
         >
           {description}
-        </motion.p>
+        </MotionP>
       ) : null}
-    </motion.div>
+    </MotionDiv>
   );
 }

@@ -1,6 +1,9 @@
 "use client";
 
-import { motion, useReducedMotion } from "framer-motion";
+import { useReducedMotion } from "framer-motion";
+import { typed } from "@/components/motion/typedMotion";
+
+const { nav: MotionNav, span: MotionSpan } = typed;
 import { cn } from "@/utils/cn";
 import Link from "next/link";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -56,7 +59,7 @@ const FloatingNavbar = ({
   }, [navItems]);
 
   return (
-    <motion.nav
+    <MotionNav
       aria-label="Section navigation"
       initial={{ opacity: 0, y: -16 }}
       animate={{ opacity: 1, y: 0 }}
@@ -100,7 +103,7 @@ const FloatingNavbar = ({
               reduceMotion ? (
                 <span className="absolute -bottom-1 left-1/2 h-1 w-1 -translate-x-1/2 rounded-full bg-indigo-400" />
               ) : (
-                <motion.span
+                <MotionSpan
                   layoutId="nav-active-indicator"
                   className="absolute -bottom-1 left-1/2 h-1 w-1 -translate-x-1/2 rounded-full bg-indigo-400 shadow-[0_0_6px_rgba(129,140,248,0.8)]"
                   transition={{ duration: 0.35, ease: EASE.interaction }}
@@ -110,7 +113,7 @@ const FloatingNavbar = ({
           </Link>
         );
       })}
-    </motion.nav>
+    </MotionNav>
   );
 };
 

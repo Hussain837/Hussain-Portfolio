@@ -13,7 +13,15 @@ import {
 import Column from "@/components/core/Column";
 import ResponsiveBox from "@/components/core/ResponsiveBox";
 import { useState, useEffect } from "react";
-import { motion, useReducedMotion } from "framer-motion";
+import { useReducedMotion } from "framer-motion";
+import { typed } from "@/components/motion/typedMotion";
+
+const {
+  div: MotionDiv,
+  h1: MotionH1,
+  span: MotionSpan,
+  p: MotionP,
+} = typed;
 import { site } from "@/data/site";
 import { heroHighlights, heroTechBadges } from "@/data/content";
 import { heroContainer, heroItem, EASE, DURATION } from "@/components/motion/motion";
@@ -55,7 +63,7 @@ export default function HeroSection({ id }: { id: string }) {
         aria-hidden="true"
         className="pointer-events-none absolute inset-0 overflow-hidden"
       >
-        <motion.div
+        <MotionDiv
           className="absolute left-1/2 top-[-15%] h-[520px] w-[820px] max-w-[120vw] -translate-x-1/2 rounded-full bg-indigo-500/10 blur-[120px]"
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
@@ -65,7 +73,7 @@ export default function HeroSection({ id }: { id: string }) {
 
       {/* Floating Icons */}
       {floatingIcons.map((item, index) => (
-        <motion.div
+        <MotionDiv
           key={index}
           className={`absolute ${item.position} hidden text-4xl text-indigo-400/30 lg:block`}
           style={{ animationDelay: item.delay }}
@@ -78,12 +86,12 @@ export default function HeroSection({ id }: { id: string }) {
           }}
         >
           <FontAwesomeIcon icon={item.icon} />
-        </motion.div>
+        </MotionDiv>
       ))}
 
       {/* Cinematic settle: eyebrow -> name -> description -> actions -> tech.
           Each block staggers in so the hero composes rather than appearing. */}
-      <motion.div
+      <MotionDiv
         className="relative z-10 mx-auto w-full max-w-[1280px] px-4 py-20 sm:px-6 sm:py-24 lg:px-8 lg:py-28"
         variants={heroContainer}
         initial="hidden"
@@ -92,7 +100,7 @@ export default function HeroSection({ id }: { id: string }) {
         <div className="flex flex-wrap gap-12 lg:gap-16 items-center">
           <Column classNames="items-start gap-4 sm:gap-6">
             {/* Badge */}
-            <motion.div
+            <MotionDiv
               className="inline-flex items-center gap-2 rounded-full border border-indigo-400/25 bg-indigo-500/10 px-4 py-2 backdrop-blur-sm"
               variants={heroItem}
             >
@@ -103,46 +111,46 @@ export default function HeroSection({ id }: { id: string }) {
               <span className="technical-label">
                 Full-Stack Developer &amp; AI Engineer
               </span>
-            </motion.div>
+            </MotionDiv>
 
             {/* Name. Each line reveals through a clipped container so the type
                 settles onto the baseline - the one place on the site that gets
                 a true line-by-line text reveal. */}
-            <motion.h1
+            <MotionH1
               className="display-type text-[clamp(2.75rem,9vw,6.5rem)] leading-[0.92] tracking-[-0.035em]"
               variants={heroContainer}
             >
               <span className="inline-block overflow-hidden pb-[0.06em]">
-                <motion.span
+                <MotionSpan
                   className="block text-white"
                   variants={{ hidden: { y: "110%" }, visible: { y: "0%" } }}
                   transition={{ duration: 0.9, ease: EASE.entrance }}
                 >
                   Hussain
-                </motion.span>
+                </MotionSpan>
               </span>
               <span className="inline-block overflow-hidden pb-[0.06em]">
-                <motion.span
+                <MotionSpan
                   className="text-gradient block italic"
                   variants={{ hidden: { y: "110%" }, visible: { y: "0%" } }}
                   transition={{ duration: 0.9, delay: 0.09, ease: EASE.entrance }}
                 >
                   <span className="px-4">Zaidi</span>
-                </motion.span>
+                </MotionSpan>
               </span>
-            </motion.h1>
+            </MotionH1>
 
             {/* Description */}
-            <motion.p
+            <MotionP
               className="max-w-2xl text-base font-normal leading-relaxed text-slate-300 sm:text-lg md:text-xl"
               variants={heroItem}
             >
               Building scalable web applications, AI-powered products, analytics
               platforms, and real-time systems.
-            </motion.p>
+            </MotionP>
 
             {/* Tech Badges with improved styling */}
-            <motion.div
+            <MotionDiv
               className="mt-2 flex flex-wrap gap-2 sm:gap-3"
               variants={heroItem}
             >
@@ -154,10 +162,10 @@ export default function HeroSection({ id }: { id: string }) {
                   {badge.name}
                 </span>
               ))}
-            </motion.div>
+            </MotionDiv>
 
             {/* Action Buttons */}
-            <motion.div
+            <MotionDiv
               className="mt-4 flex w-full flex-wrap gap-3 sm:mt-6 sm:gap-4"
               variants={heroItem}
             >
@@ -187,10 +195,10 @@ export default function HeroSection({ id }: { id: string }) {
                 <FontAwesomeIcon icon={faDownload} /> 
                 <span className="hidden sm:inline">Resume</span>
               </Link>
-            </motion.div>
+            </MotionDiv>
 
             {/* Stats */}
-            <motion.div
+            <MotionDiv
               className="mt-4 flex w-full gap-6 border-t border-white/10 pt-4 sm:gap-8"
               variants={heroItem}
             >
@@ -202,12 +210,12 @@ export default function HeroSection({ id }: { id: string }) {
                   <p className="text-xs text-slate-400 sm:text-sm">{stat.label}</p>
                 </div>
               ))}
-            </motion.div>
+            </MotionDiv>
           </Column>
 
           {/* Profile Image - revealed with a mask + scale so it resolves into
               focus rather than simply appearing. */}
-          <motion.div
+          <MotionDiv
             className="mt-8 flex flex-1 justify-center lg:mt-0 lg:justify-end"
             initial={{ opacity: 0, scale: 0.92, y: 18 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
@@ -240,9 +248,9 @@ export default function HeroSection({ id }: { id: string }) {
               <div className="absolute -top-6 -right-6 w-12 h-12 sm:w-16 sm:h-16 bg-indigo-500/20 rounded-full blur-xl animate-pulse delay-700" />
               <div className="absolute -bottom-6 -left-6 w-12 h-12 sm:w-16 sm:h-16 bg-purple-500/20 rounded-full blur-xl animate-pulse delay-1000" />
             </div>
-          </motion.div>
+          </MotionDiv>
         </div>
-      </motion.div>
+      </MotionDiv>
 
       {/* Scroll indicator */}
       <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce hidden sm:block">

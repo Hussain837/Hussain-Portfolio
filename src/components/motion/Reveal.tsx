@@ -1,6 +1,5 @@
 "use client";
 
-import { motion } from "framer-motion";
 import type { ReactNode } from "react";
 import { cn } from "@/utils/cn";
 import {
@@ -12,6 +11,34 @@ import {
   transition,
   type RevealVariant,
 } from "./motion";
+import { motionTags, typed, type MotionTagProps } from "./typedMotion";
+
+/**
+ * Element factories for the polymorphic `as` prop, pre-resolved through
+ * `motionTags` so each tag keeps its own concrete, fully-typed component.
+ * Looking these up as `motion[as]` instead yields a union TypeScript cannot
+ * reduce, which loses every HTML attribute - see `typedMotion`.
+ */
+const revealTags = motionTags({
+  div: typed.div,
+  section: typed.section,
+  li: typed.li,
+  article: typed.article,
+});
+
+const staggerTags = motionTags({
+  div: typed.div,
+  ul: typed.ul,
+  ol: typed.ol,
+});
+
+const itemTags = motionTags({
+  div: typed.div,
+  li: typed.li,
+  article: typed.article,
+  a: typed.a,
+  section: typed.section,
+});
 
 /**
  * Scroll-triggered reveal for a block of content.
@@ -33,7 +60,7 @@ export function Reveal({
   className?: string;
   as?: "div" | "section" | "li" | "article";
 }) {
-  const Component = motion[as];
+  const Component = revealTags[as];
   return (
     <Component
       className={className}
@@ -65,7 +92,7 @@ export function Stagger({
   stagger?: number;
   as?: "div" | "ul" | "ol";
 }) {
-  const Component = motion[as];
+  const Component = staggerTags[as];
   return (
     <Component
       className={className}
@@ -93,7 +120,7 @@ export function StaggerItem({
   as?: "div" | "li" | "article" | "a" | "section";
   [key: string]: unknown;
 }) {
-  const Component = motion[as] as typeof motion.div;
+  const Component = itemTags[as];
   return (
     <Component className={className} variants={staggerItem(variant)} {...rest}>
       {children}
